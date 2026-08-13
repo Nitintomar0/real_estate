@@ -2565,4 +2565,107 @@ With planned infrastructure, open surroundings and strong connectivity to major 
   possession: "Ready / As Per Project Plan",
 },
 
+{
+  id: "eternia-greater-noida",
+  title: "Eternia",
+  location: "Greater Noida West, Uttar Pradesh",
+  beds: 4,
+  baths: 4,
+
+  category: "highrise",
+  layout: "luxury",
+
+  area: "6 Acres",
+  price: "₹940/Sq. Ft.",
+  status: "Under Construction",
+
+  possession: "On Request",
+
+  propertyType: "Premium Residential Apartments",
+
+  areaSize: "6 Acre Premium Township",
+
+  // ADD YOUR CLOUDINARY IMAGE URLS HERE
+  images: [
+  "/nnn.png",
+  "/nnn1.png",
+  "/nnn2.png",
+],
+
+  description: `Eternia is a premium residential development by Sankar Realty, designed around premium living, smart design and eternal comfort.
+
+Spread across approximately 6 acres, the project features 6 premium residential towers and offers spacious 3 BHK and 4 BHK + Study configurations.
+
+The development is designed to provide a modern lifestyle with thoughtfully planned residences, open green spaces, recreational facilities and premium lifestyle amenities.
+
+Eternia offers multiple residential configurations with spacious living areas, balconies and well-planned layouts. The project also includes facilities such as a swimming pool, gym, kids play area, multipurpose hall, jogging track, café and bar, senior citizen garden, sitout plaza, water features and deck seating.
+
+Located in Greater Noida West, the project offers an opportunity for comfortable family living along with strong future appreciation potential.`,
+
+  developer: "Sankar Realty",
+
+  towers: "6 Towers",
+
+  floors: "Premium Residential Towers",
+
+  projectSize: "6 Acres",
+
+  features: [
+    "50% Green Landscape",
+    "Clubhouse - 5000 Sq. Ft.",
+    "Swimming Pool",
+    "Kids Pool",
+    "Gym",
+    "Billiards Room",
+    "Kids Play Area",
+    "Multipurpose Hall",
+    "Palm Court Sitting Area",
+    "Lawn",
+    "Water Feature",
+    "Café and Bar",
+    "Sitout Plaza",
+    "Senior Citizen Garden",
+    "Stepped Seating",
+    "Multipurpose Court",
+    "Jogging Track",
+    "Water Features & Deck Seating",
+    "2 Years Maintenance Included",
+    "No GST"
+  ],
+
+  configurations: [
+    "3 BHK + Study",
+    "3 BHK",
+    "4 BHK + Study",
+    "4 Bedroom with 4 Toilets"
+  ],
+
+  nearbyLocations: [
+    "Greater Noida West",
+    "Prime Residential Location",
+    "Educational Institutions",
+    "Hospitals",
+    "Shopping & Entertainment",
+    "Major Road Connectivity"
+  ],
+
+  stats: [
+    {
+      number: "6",
+      label: "Premium Towers"
+    },
+    {
+      number: "6 Acres",
+      label: "Total Project Area"
+    },
+    {
+      number: "50%",
+      label: "Green Landscape"
+    },
+    {
+      number: "5000 Sq. Ft.",
+      label: "Clubhouse"
+    }
+  ],
+},
 ];
