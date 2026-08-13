@@ -1,0 +1,356 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  color-scheme: dark;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes smoothSlide {
+  from {
+    transform: translateX(-20%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+.cta-btn {
+  transition: all 0.4s ease;
+}
+
+.cta-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #D4AF37;
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+.cta-btn:hover::before {
+  transform: translateX(0);
+}
+
+.cta-btn:hover {
+  color: black;
+}
+.cta-btn {
+  transition: all 0.4s ease;
+}
+
+.cta-btn:hover {
+  color: black;
+  transform: scale(1.05);
+}
+footer {
+  background: radial-gradient(circle at top, rgba(212,175,55,0.05), transparent);
+}
+
+.about-hero-img img {
+  transition: transform 0.8s ease;
+}
+
+.about-hero-img:hover img {
+  transform: scale(1.05);
+}
+
+.slider-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+}
+
+#svg-stage {
+
+  overflow: visible;
+}
+
+
+
+.panel {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.founder-section {
+  position: relative;
+  height: auto; /* ❌ REMOVE fixed height */
+}
+
+/* ===== FOUNDER PREMIUM CARD ===== */
+
+.founder-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  width: 100%;
+}
+
+/* reverse layout */
+.founder-card.reverse {
+  direction: rtl;
+}
+
+.founder-card.reverse .founder-content {
+  direction: ltr;
+}
+
+/* IMAGE */
+.founder-image {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.founder-image img {
+  width: 100%;
+  height: 600px;
+  max-height: 600px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+/* cinematic overlay */
+.founder-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+}
+
+/* hover zoom */
+.founder-card:hover img {
+  transform: scale(1.06);
+}
+
+/* CONTENT CARD */
+.founder-content {
+  backdrop-filter: blur(16px);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 50px;
+  border-radius: 24px;
+  position: relative;
+  max-width: 520px;
+}
+
+/* GOLD ROLE */
+.founder-role {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #D4AF37;
+}
+
+/* NAME */
+.founder-name {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+/* DESC */
+.founder-desc {
+  font-size: 18px;
+  color: #aaa;
+  line-height: 1.7;
+}
+
+/* glow border */
+.founder-content::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 24px;
+  background: linear-gradient(120deg, transparent, #D4AF37, transparent);
+  opacity: 0.2;
+  z-index: -1;
+}
+footer {
+  position: relative;
+  z-index: 20;
+}
+.footer-item {
+  opacity: 1;
+  transform: none;
+}
+.input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  outline: none;
+  color: white;
+}
+
+.input:focus {
+  border-color: #D4AF37;
+  box-shadow: 0 0 10px rgba(212,175,55,0.3);
+}
+.success-box {
+  background: #111;
+  border: 1px solid #D4AF37;
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(212,175,55,0.4);
+
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+  animation: smoothPopup 0.4s ease forwards;
+}
+
+@keyframes smoothPopup {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes smoothPopup {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.9);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* login page */
+.input {
+  padding: 12px;
+  border-radius: 10px;
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.1);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  border-color: #dcb638;
+  box-shadow: 0 0 10px rgba(212,175,55,0.3);
+}
+
+.font-serif-luxury {
+  font-family: 'Playfair Display', serif;
+}
+
+.comparisonSection {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.comparisonImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.comparisonImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.afterImage::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: white;
+  z-index: 10;
+}
+
+.afterImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.afterImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* FIX FLOATING BUTTON WITH LENIS */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.floating-contact-fix {
+  position: fixed !important;
+  bottom: 32px !important;
+  right: 32px !important;
+  z-index: 999999999 !important;
+  pointer-events: auto !important;
+}
