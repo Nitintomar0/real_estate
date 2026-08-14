@@ -24,7 +24,7 @@ export default function About() {
 
   useEffect(() => {
     ScrollTrigger.clearMatchMedia();
-ScrollTrigger.getAll().forEach(t => t.kill());
+    ScrollTrigger.getAll().forEach(t => t.kill());
     ScrollTrigger.clearMatchMedia();
     ScrollTrigger.refresh(true);
     window.scrollTo(0, 0);
@@ -37,7 +37,7 @@ ScrollTrigger.getAll().forEach(t => t.kill());
         duration: 1,
         ease: "power3.out",
       });
-    
+
       gsap.from(".about-hero-img", {
         opacity: 0,
         x: 80,
@@ -74,23 +74,23 @@ ScrollTrigger.getAll().forEach(t => t.kill());
         ease: "linear",
         transformOrigin: "center",
       });
-  //     <path
-  //       id="motionPath"
-  //       className="shape-path"
-  //       d="
-  // M40,100
-  // C40,40 160,40 160,100
-  // C160,160 40,160 40,100
-  // Z
-  // M70,100
-  // C70,70 130,70 130,100
-  // C130,130 70,130 70,100
-  // Z
-  // "
-  //       fill="none"
-  //       stroke="#E5D3A3"
-  //       strokeWidth="1.5"
-  //     />
+      //     <path
+      //       id="motionPath"
+      //       className="shape-path"
+      //       d="
+      // M40,100
+      // C40,40 160,40 160,100
+      // C160,160 40,160 40,100
+      // Z
+      // M70,100
+      // C70,70 130,70 130,100
+      // C130,130 70,130 70,100
+      // Z
+      // "
+      //       fill="none"
+      //       stroke="#E5D3A3"
+      //       strokeWidth="1.5"
+      //     />
       // BOX MOVING ALONG PATH
       gsap.to(".moving-box", {
         motionPath: {
@@ -229,21 +229,21 @@ ScrollTrigger.getAll().forEach(t => t.kill());
       }, 200);
     });
     return () => {
-  ctx.revert();
-  ScrollTrigger.getAll().forEach(t => t.kill());
-};
+      ctx.revert();
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
 
   }, []);
 
   return (
-    
+
     <div className="bg-[#0B0B0B] text-white min-h-screen">
       <div className="fixed inset-0 pointer-events-none -z-10">
         <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-[#D4AF37]/10 blur-[120px]"></div>
         <div className="absolute bottom-1/3 right-1/4 w-[300px] h-[300px] bg-[#D4AF37]/10 blur-[120px]"></div>
       </div>
       <LuxuryNavbar />
-      
+
 
       {/* HERO SECTION */}
       <section className="min-h-screen flex items-center px-6 md:px-20 pt-28 bg-[#0B0B0B]">
@@ -408,12 +408,25 @@ ScrollTrigger.getAll().forEach(t => t.kill());
             </div>
 
             <div className="founder-content">
-              <span className="founder-role">Strategy Head</span>
-              <h2 className="founder-name">Ananya Sharma</h2>
-              <p className="founder-desc">
-                Driving innovation and expansion across luxury real estate markets with precision and vision.
-              </p>
-            </div>
+  <span className="founder-role">Sales Head</span>
+  <h2 className="founder-name">Uday</h2>
+
+  <p className="founder-desc">
+    At the heart of every successful real estate journey is the right
+    understanding, the right opportunity, and the right guidance. Uday
+    leads the sales vision at Paramshiv Estate with a sharp focus on
+    connecting people with properties that truly match their aspirations.
+  </p>
+
+  <p className="founder-desc">
+    With a strong understanding of the market and a relationship-driven
+    approach, he transforms every client interaction into a seamless
+    experience. From identifying high-value opportunities to guiding
+    clients through important decisions, Uday brings energy, strategy,
+    and a commitment to delivering results that go beyond just closing
+    a deal — creating lasting confidence and value.
+  </p>
+</div>
 
           </div>
 
@@ -481,10 +494,10 @@ ScrollTrigger.getAll().forEach(t => t.kill());
 
       </section>
 
-     <section
-  id="book-slot"
-  className="cta-section py-40 px-6 md:px-20 bg-[#0A0A0A] text-center relative"
->
+      <section
+        id="book-slot"
+        className="cta-section py-40 px-6 md:px-20 bg-[#0A0A0A] text-center relative"
+      >
         {/* Background Glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37]/10 via-transparent to-[#D4AF37]/10 blur-3xl"></div>
 
@@ -508,10 +521,10 @@ ScrollTrigger.getAll().forEach(t => t.kill());
 
         </div>
 
-        
+
       </section>
       <FloatingContact setPopupOpen={setPopupOpen} />
-<LeadPopup isOpen={popupOpen} setIsOpen={setPopupOpen} />
+      <LeadPopup isOpen={popupOpen} setIsOpen={setPopupOpen} />
       {/* FOOTER */}
       <Footer />
     </div>

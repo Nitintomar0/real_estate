@@ -2249,10 +2249,10 @@ Located inside the prestigious Grand View township, residents enjoy golf course 
   ],
 
   images: [
-    "https://images.unsplash.com/photo-1441986300917-64674bd600d8",
-    "https://images.unsplash.com/photo-1555529771-835f59fc5efe",
-    "https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d",
-    "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6",
+    "/trg2.png",
+    "/trg1.png",
+    "/trg.png",
+    "/trg3.png",
     "https://images.unsplash.com/photo-1497366811353-6870744d04b2",
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4"
   ],
@@ -2590,6 +2590,9 @@ With planned infrastructure, open surroundings and strong connectivity to major 
   "/nnn.png",
   "/nnn1.png",
   "/nnn2.png",
+  "/nnn3.png",
+  "/nnn4.png",
+  "/nnn5.png",
 ],
 
   description: `Eternia is a premium residential development by Sankar Realty, designed around premium living, smart design and eternal comfort.
