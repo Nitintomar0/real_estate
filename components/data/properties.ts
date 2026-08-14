@@ -2576,7 +2576,7 @@ With planned infrastructure, open surroundings and strong connectivity to major 
   layout: "luxury",
 
   area: "6 Acres",
-  price: "₹940/Sq. Ft.",
+  price: "₹9400/Sq. Ft.",
   status: "Under Construction",
 
   possession: "On Request",
