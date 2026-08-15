@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import ScheduleVisit from "@/components/ScheduleVisit";
+import MobilePropertyDetails from "@/components/mobile/MobilePropertyDetails";
 import { useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -75,6 +76,8 @@ export default function FarmHouseLayout({ property }: any) {
   };
 
   useLayoutEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) return;
+
     const section = sectionRef.current;
     const after = afterRef.current;
     const afterImg = afterImgRef.current;
@@ -448,10 +451,14 @@ export default function FarmHouseLayout({ property }: any) {
             </motion.div>
           </div>
         </div>
+        <MobilePropertyDetails
+          property={property}
+          onSchedule={() => setVisitOpen(true)}
+        />
 
         {/* IMAGE COMPARISON */}
         {property.images?.length >= 2 && (
-          <div className="w-full bg-black py-20">
+          <div className="hidden w-full bg-black py-20 md:block">
 
             <section
               ref={sectionRef}
@@ -538,7 +545,7 @@ export default function FarmHouseLayout({ property }: any) {
         )}
 
         {/* WHY THIS FARM HOUSE */}
-        <section className="relative py-32 overflow-hidden bg-[#0B0B0B]">
+        <section className="relative hidden py-32 overflow-hidden bg-[#0B0B0B] md:block">
 
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#D4AF37]/10 blur-[160px] rounded-full" />
 
@@ -616,7 +623,7 @@ export default function FarmHouseLayout({ property }: any) {
 
         {/* STATS */}
         {property.stats?.length > 0 && (
-          <section className="relative py-32 bg-gradient-to-b from-[#0B0B0B] to-[#111] overflow-hidden">
+          <section className="relative hidden py-32 bg-gradient-to-b from-[#0B0B0B] to-[#111] overflow-hidden md:block">
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[#D4AF37]/10 blur-[180px]" />
 

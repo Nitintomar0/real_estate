@@ -9,6 +9,7 @@ import { useLayoutEffect } from "react";
 import { useRef } from "react";
 
 import Footer from "@/components/Footer";
+import MobilePropertyDetails from "@/components/mobile/MobilePropertyDetails";
 
 export default function HighriseLayout({ property }: any) {
     const sectionRef = useRef(null);
@@ -45,6 +46,8 @@ export default function HighriseLayout({ property }: any) {
         }
     };
     useLayoutEffect(() => {
+        if (typeof window !== "undefined" && window.innerWidth < 768) return;
+
         const section = sectionRef.current;
         const after = afterRef.current;
         const afterImg = afterImgRef.current;
@@ -323,8 +326,12 @@ export default function HighriseLayout({ property }: any) {
 
 
             </div>
+            <MobilePropertyDetails
+                property={property}
+                onSchedule={() => setVisitOpen(true)}
+            />
             {/* 🔥 FULL WIDTH COMPARISON */}
-            <div className="w-full bg-black py-20">
+            <div className="hidden w-full bg-black py-20 md:block">
                 <section ref={sectionRef} className="comparisonSection">
                     <div className="comparisonImage beforeImage">
                         <img src={property.images[0]} />
@@ -370,7 +377,7 @@ export default function HighriseLayout({ property }: any) {
             )}
 
             {/* 🔥 PREMIUM WHY PROPERTY SECTION */}
-<section className="relative py-32 overflow-hidden bg-[#0B0B0B]">
+<section className="relative hidden py-32 overflow-hidden bg-[#0B0B0B] md:block">
 
   {/* BACKGROUND GLOW */}
   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#D4AF37]/10 blur-[160px] rounded-full" />
@@ -489,7 +496,7 @@ export default function HighriseLayout({ property }: any) {
 </section>
 
 {/* 🔥 PREMIUM STATS SECTION */}
-<section className="relative py-32 bg-gradient-to-b from-[#0B0B0B] to-[#111] overflow-hidden">
+<section className="relative hidden py-32 bg-gradient-to-b from-[#0B0B0B] to-[#111] overflow-hidden md:block">
 
   {/* GOLD GLOW */}
   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-[#D4AF37]/10 blur-[180px]" />
@@ -555,7 +562,7 @@ export default function HighriseLayout({ property }: any) {
 
 </section>
 
-<section className="relative py-32 bg-[#0B0B0B] overflow-hidden">
+<section className="relative hidden py-32 bg-[#0B0B0B] overflow-hidden md:block">
 
   {/* BACKGROUND */}
   <div className="absolute inset-0">

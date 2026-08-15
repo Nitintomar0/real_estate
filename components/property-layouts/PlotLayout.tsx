@@ -9,6 +9,7 @@ import { useLayoutEffect } from "react";
 import { useRef } from "react";
 
 import Footer from "@/components/Footer";
+import MobilePropertyDetails from "@/components/mobile/MobilePropertyDetails";
 
 export default function HighriseLayout({ property }: any) {
     const sectionRef = useRef(null);
@@ -45,6 +46,8 @@ export default function HighriseLayout({ property }: any) {
         }
     };
     useLayoutEffect(() => {
+        if (typeof window !== "undefined" && window.innerWidth < 768) return;
+
         const section = sectionRef.current;
         const after = afterRef.current;
         const afterImg = afterImgRef.current;
@@ -332,6 +335,10 @@ export default function HighriseLayout({ property }: any) {
 
 
             </div>
+            <MobilePropertyDetails
+                property={property}
+                onSchedule={() => setVisitOpen(true)}
+            />
             
             {/* 🔥 ADD THIS HERE */}
             < ScheduleVisit
