@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { submitLeadWithVisitorInterest } from "@/components/visitor-interest/submit";
 
 
 export default function ContactForm() {
@@ -11,11 +12,13 @@ export default function ContactForm() {
   });
 
 
-  const handleChange = (e: any) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!form.name || !form.phone || !form.message) {
@@ -24,18 +27,21 @@ export default function ContactForm() {
     }
 
     try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // ✅ MUST
-        },
-        body: JSON.stringify({
+      const data = await submitLeadWithVisitorInterest({
+        lead: {
           ...form,
-          type: "Contact", // ✅ MUST
-        }),
+          type: "Contact",
+        },
+        activity: {
+          source: "homepage_contact_form",
+          sourceLabel: "Homepage Contact Form",
+          details: {
+            email: form.email,
+            message: form.message,
+            leadType: "Contact",
+          },
+        },
       });
-
-      const data = await res.json();
 
       if (data.success) {
         alert("Message sent successfully!");
@@ -51,8 +57,9 @@ export default function ContactForm() {
       }
 
     } catch (error) {
-      console.log(error);
-      alert("Something went wrong");
+      alert(
+        error instanceof Error ? error.message : "Something went wrong"
+      );
     }
   };
 

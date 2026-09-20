@@ -1,5 +1,4 @@
 "use client";
-
 import BackButton from "./BackButton";
 import { motion } from "framer-motion";
 
@@ -36,8 +35,6 @@ export default function AboutMobile() {
           className="rounded-2xl object-cover w-full h-[220px]"
         />
       </section>
-
-
 
 
       <section className="py-20 px-6 bg-[#0B0B0B] text-white">
@@ -115,31 +112,7 @@ export default function AboutMobile() {
         </div>
       </section>
 
-      {/* EXPERIENCE SECTION */}
-      {/* <section className="text-center space-y-6">
-        <h2 className="text-xl font-light">
-          Experience That Defines Excellence
-        </h2>
-
-        <div className="grid grid-cols-3 gap-4">
-          {[
-            { number: "100+", label: "Properties" },
-            { number: "50+", label: "Clients" },
-            { number: "3+", label: "Years" },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ scale: 1.05 }}
-              className="bg-white/5 border border-white/10 rounded-xl p-4"
-            >
-              <h3 className="text-lg font-semibold text-[#D4AF37]">
-                {item.number}
-              </h3>
-              <p className="text-xs text-gray-400">{item.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section> */}
+      
       <section className="space-y-12">
 
         <h2 className="text-2xl text-center text-[#D4AF37] font-light tracking-wide">
@@ -149,7 +122,7 @@ export default function AboutMobile() {
         {/* MEMBER 1 */}
         <div className="space-y-4">
           <img
-            src="https://res.cloudinary.com/dbl5y5rvh/image/upload/v1779716185/founder_zzfima.png"
+            src="/ravi.png"
             className="w-full h-[280px] object-cover rounded-xl"
           />
 

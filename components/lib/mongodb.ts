@@ -1,14 +1,38 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = "mongodb+srv://nitin:Nitin123@cluster0.40mrjhc.mongodb.net/?appName=Cluster0";
+const MONGODB_URI = process.env.MONGODB_URI;
+
+type CachedConnection = {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+};
+
+declare global {
+  var mongooseConnection: CachedConnection | undefined;
+}
+
+const cached = globalThis.mongooseConnection || {
+  conn: null,
+  promise: null,
+};
+
+globalThis.mongooseConnection = cached;
 
 export const connectDB = async () => {
-  try {
-    if (mongoose.connection.readyState >= 1) return;
-
-    await mongoose.connect(MONGODB_URI);
-    console.log("MongoDB Connected ✅");
-  } catch (error) {
-    console.log("Mongo Error ❌", error);
+  if (!MONGODB_URI) {
+    throw new Error("MONGODB_URI is not configured");
   }
+
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI, {
+      bufferCommands: false,
+    });
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 };

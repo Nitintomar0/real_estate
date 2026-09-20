@@ -1,23 +1,48 @@
 "use client";
 import { useEffect, useState } from "react";
+import VisitorInsights from "@/components/admin/VisitorInsights";
+
+const VISITOR_INSIGHTS_TAB = "Visitor Insights";
+
+type LeadItem = {
+  _id: string;
+  name?: string;
+  phone?: string;
+  city?: string;
+  property?: string;
+  email?: string;
+  message?: string;
+  date?: string;
+};
 
 export default function AdminPage() {
-  const [leads, setLeads] = useState<any[]>([]);
+  const [leads, setLeads] = useState<LeadItem[]>([]);
   const [activeTab, setActiveTab] = useState("Lead");
   const [search, setSearch] = useState("");
 
-  const fetchData = async (type: string) => {
-    const res = await fetch(`/api/leads?type=${type}`);
-    const data = await res.json();
-    setLeads(data);
-  };
-
   useEffect(() => {
-    fetchData(activeTab);
+    if (activeTab === VISITOR_INSIGHTS_TAB) return;
+
+    let ignore = false;
+
+    const loadLeads = async () => {
+      const res = await fetch(`/api/leads?type=${activeTab}`);
+      const data: unknown = await res.json();
+
+      if (!ignore) {
+        setLeads(Array.isArray(data) ? data : []);
+      }
+    };
+
+    void loadLeads();
+
+    return () => {
+      ignore = true;
+    };
   }, [activeTab]);
 
   // 🔍 FILTER LOGIC
-  const filteredLeads = leads.filter((item: any) =>
+  const filteredLeads = leads.filter((item) =>
     item.name?.toLowerCase().includes(search.toLowerCase()) ||
     item.phone?.includes(search)
   );
@@ -32,7 +57,7 @@ export default function AdminPage() {
         </h1>
 
         <div className="flex flex-col gap-3">
-          {["Lead", "Visit", "Contact"].map((tab) => (
+          {["Lead", "Visit", "Contact", VISITOR_INSIGHTS_TAB].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -56,22 +81,26 @@ export default function AdminPage() {
 
   <div>
     <h2 className="text-3xl font-bold text-[#D4AF37]">
-      {activeTab} Dashboard
+      {activeTab === VISITOR_INSIGHTS_TAB ? "Admin Dashboard" : `${activeTab} Dashboard`}
     </h2>
     <p className="text-gray-400 text-sm">
-      Manage all {activeTab.toLowerCase()} data
+      {activeTab === VISITOR_INSIGHTS_TAB
+        ? "Review captured property interest and existing lead data"
+        : `Manage all ${activeTab.toLowerCase()} data`}
     </p>
   </div>
 
   <div className="flex items-center gap-3">
 
     {/* 🔍 SEARCH */}
-    <input
-      placeholder="Search..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-      className="px-4 py-2 bg-[#111] border border-white/10 rounded-lg"
-    />
+    {activeTab !== VISITOR_INSIGHTS_TAB && (
+      <input
+        placeholder="Search..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="px-4 py-2 bg-[#111] border border-white/10 rounded-lg"
+      />
+    )}
 
     {/* 🔴 LOGOUT BUTTON */}
     <button
@@ -87,6 +116,10 @@ export default function AdminPage() {
   </div>
 </div>
 
+        {activeTab === VISITOR_INSIGHTS_TAB ? (
+          <VisitorInsights />
+        ) : (
+          <>
         {/* 🔥 STATS */}
         <div className="grid md:grid-cols-3 gap-6 mb-10">
           <div className="bg-[#111] p-6 rounded-xl border border-white/10">
@@ -117,7 +150,7 @@ export default function AdminPage() {
         ) : (
           <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
 
-            {filteredLeads.map((item: any) => (
+            {filteredLeads.map((item) => (
               <div
                 key={item._id}
                 className="relative bg-[#111] border border-white/10 p-5 rounded-xl hover:border-[#D4AF37]/40 transition-all"
@@ -175,7 +208,7 @@ export default function AdminPage() {
 
                 {item.message && (
                   <p className="text-sm text-gray-400 mt-2 italic">
-                    "{item.message}"
+                    &quot;{item.message}&quot;
                   </p>
                 )}
 
@@ -186,6 +219,8 @@ export default function AdminPage() {
             ))}
 
           </div>
+        )}
+        </>
         )}
       </div>
     </div>

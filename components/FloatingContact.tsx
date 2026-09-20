@@ -9,6 +9,7 @@ import {
   Check,
   Loader2,
 } from "lucide-react";
+import { submitLeadWithVisitorInterest } from "@/components/visitor-interest/submit";
 
 const messages = [
   "Looking for luxury properties?",
@@ -25,7 +26,11 @@ const messages = [
   "Luxury investment opportunities await.",
 ];
 
-export default function FloatingContact({ setPopupOpen }: any) {
+export default function FloatingContact({
+  setPopupOpen,
+}: {
+  setPopupOpen: (open: boolean) => void;
+}) {
   const [miniOpen, setMiniOpen] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
 
@@ -53,29 +58,43 @@ useEffect(() => {
 
 }, []);
   useEffect(() => {
-    const firstTimer = setTimeout(() => {
-      setMiniOpen(true);
+  let closeTimer: ReturnType<typeof setTimeout> | null = null;
 
-      setTimeout(() => {
-        setMiniOpen(false);
-      }, 12000);
+  // Function to open the original floating form
+  const showFloatingForm = () => {
+    setMiniOpen(true);
+
+    setMessageIndex((prev) => (prev + 1) % messages.length);
+
+    // Automatically close after 8 seconds
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+    }
+
+    closeTimer = setTimeout(() => {
+      setMiniOpen(false);
     }, 8000);
+  };
 
-    const interval = setInterval(() => {
-      setMiniOpen(true);
+  // First time: show after 8 seconds
+  const firstTimer = setTimeout(() => {
+    showFloatingForm();
+  }, 15000);
 
-      setMessageIndex((prev) => (prev + 1) % messages.length);
+  // Repeat every 10 seconds
+  const repeatInterval = setInterval(() => {
+    showFloatingForm();
+  }, 20000);
 
-      setTimeout(() => {
-        setMiniOpen(false);
-      }, 12000);
-    }, 120000);
+  return () => {
+    clearTimeout(firstTimer);
+    clearInterval(repeatInterval);
 
-    return () => {
-      clearTimeout(firstTimer);
-      clearInterval(interval);
-    };
-  }, []);
+    if (closeTimer) {
+      clearTimeout(closeTimer);
+    }
+  };
+}, []);
 
 useEffect(() => {
 
@@ -326,16 +345,27 @@ max-w-[320px]
                     return;
                   }
                   setIsSubmitting(true);
-                  await fetch("/api/leads", {
-                    
-                    method: "POST",
-                    body: JSON.stringify({
+                  try {
+                    await submitLeadWithVisitorInterest({
+                      lead: {
                       name,
                       phone,
                       city,
-                      type: "Mini Floating Lead",
-                    }),
-                  });
+                        type: "Lead",
+                      },
+                      activity: {
+                        source: "floating_contact_form",
+                        sourceLabel: "Floating Form",
+                        details: {
+                          city,
+                          leadType: "Lead",
+                        },
+                      },
+                    });
+                  } catch {
+                    setIsSubmitting(false);
+                    return;
+                  }
 
                   setName("");
                   setPhone("");

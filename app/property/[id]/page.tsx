@@ -1,6 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import type { ReactNode } from "react";
+import PropertyInterestTracker from "@/components/tracking/PropertyInterestTracker";
 
 import { properties } from "@/components/data/properties";
 
@@ -10,13 +12,21 @@ import VillaLayout from "@/components/property-layouts/VillaLayout";
 import BuilderLayout from "@/components/property-layouts/BuilderLayout";
 import FarmHouseLayout from "@/components/property-layouts/FarmHouseLayout";
 
+type PropertyPageRecord = {
+  id: string;
+  title: string;
+  location?: string;
+  layout?: string;
+};
+
 export default function PropertyPage() {
 
   const params = useParams();
+  const propertyId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   const property = properties.find(
-    (p) => p.id === params.id
-  );
+    (p) => p.id === propertyId
+  ) as (PropertyPageRecord & Record<string, unknown>) | undefined;
 
   if (!property) {
     return (
@@ -26,28 +36,41 @@ export default function PropertyPage() {
     );
   }
 
+  const withTracking = (content: ReactNode) => (
+    <>
+      <PropertyInterestTracker
+        property={{
+          id: property.id,
+          title: property.title,
+          location: property.location || "",
+        }}
+      />
+      {content}
+    </>
+  );
+
   if (property.layout === "luxury") {
-    return (
+    return withTracking(
       <HighriseLayout property={property} />
     );
   }
   if (property.layout === "plot") {
-  return <PlotLayout property={property} />;
+  return withTracking(<PlotLayout property={property} />);
 }
 
 if (property.layout === "villa") {
-  return <VillaLayout property={property} />;
+  return withTracking(<VillaLayout property={property} />);
 }
 
 if (property.layout === "builder") {
-  return <BuilderLayout property={property} />;
+  return withTracking(<BuilderLayout property={property} />);
 }
 
 if (property.layout === "farmhouse") {
-  return <FarmHouseLayout property={property} />;
+  return withTracking(<FarmHouseLayout property={property} />);
 }
 
-  return (
+  return withTracking(
     <div className="text-white p-10">
       No Layout Found
     </div>

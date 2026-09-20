@@ -2,10 +2,30 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
 import { X, CalendarDays, Phone, Building2 } from "lucide-react";
 import { createPortal } from "react-dom";
+import { submitLeadWithVisitorInterest } from "@/components/visitor-interest/submit";
 
-export default function ScheduleVisit({ open, setOpen, property }: any) {
+type ScheduleVisitProperty =
+  | string
+  | {
+      id?: string;
+      title?: string;
+      location?: string;
+    };
+
+export default function ScheduleVisit({
+  open = true,
+  setOpen,
+  onClose,
+  property,
+}: {
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
+  onClose?: () => void;
+  property: ScheduleVisitProperty;
+}) {
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -14,6 +34,13 @@ export default function ScheduleVisit({ open, setOpen, property }: any) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const propertyTitle =
+    typeof property === "string" ? property : property.title || "";
+  const propertyId = typeof property === "string" ? "" : property.id || "";
+  const closeModal = () => {
+    setOpen?.(false);
+    onClose?.();
+  };
 
   if (typeof window === "undefined") return null;
 
@@ -45,7 +72,7 @@ export default function ScheduleVisit({ open, setOpen, property }: any) {
 
             {/* CLOSE */}
             <button
-              onClick={() => setOpen(false)}
+              onClick={closeModal}
               className="absolute top-5 right-5 z-50 w-11 h-11 rounded-full bg-black/40 border border-white/10 flex items-center justify-center text-white hover:bg-[#D4AF37] hover:text-black transition-all duration-300"
             >
               <X size={20} />
@@ -54,9 +81,12 @@ export default function ScheduleVisit({ open, setOpen, property }: any) {
             {/* LEFT SIDE */}
             <div className="relative hidden md:flex min-h-[650px]">
 
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop"
-                className="absolute inset-0 w-full h-full object-cover"
+                alt=""
+                fill
+                sizes="(min-width: 768px) 50vw, 0px"
+                className="object-cover"
               />
 
               {/* OVERLAY */}
@@ -122,7 +152,7 @@ export default function ScheduleVisit({ open, setOpen, property }: any) {
                 <p className="text-gray-400 leading-relaxed mb-8">
                   Property:
                   <span className="text-white font-medium ml-2">
-                    {property}
+                    {propertyTitle}
                   </span>
                 </p>
 
@@ -165,16 +195,38 @@ export default function ScheduleVisit({ open, setOpen, property }: any) {
 
                       setLoading(true);
 
-                      await fetch("/api/leads", {
-                        method: "POST",
-                        body: JSON.stringify({
-                          name,
-                          phone,
-                          date,
-                          property,
-                          type: "Visit",
-                        }),
-                      });
+                      try {
+                        await submitLeadWithVisitorInterest({
+                          lead: {
+                            name,
+                            phone,
+                            date,
+                            property: propertyTitle,
+                            type: "Visit",
+                          },
+                          activity: {
+                            source: "schedule_visit",
+                            sourceLabel: "Schedule Visit",
+                            relatedProperty: {
+                              id: propertyId,
+                              title: propertyTitle,
+                            },
+                            details: {
+                              preferredDate: date,
+                              leadType: "Visit",
+                            },
+                          },
+                        });
+                      } catch (submitError) {
+                        setLoading(false);
+                        setError(
+                          submitError instanceof Error
+                            ? submitError.message
+                            : "Unable to schedule visit"
+                        );
+                        setTimeout(() => setError(""), 3000);
+                        return;
+                      }
 
                       setLoading(false);
                       setSuccess(true);
@@ -185,7 +237,7 @@ export default function ScheduleVisit({ open, setOpen, property }: any) {
 
                       setTimeout(() => {
                         setSuccess(false);
-                        setOpen(false);
+                        closeModal();
                       }, 2500);
 
                     }}

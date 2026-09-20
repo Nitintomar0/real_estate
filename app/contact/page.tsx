@@ -1,18 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import LuxuryNavbar from "@/components/LuxuryNavbar";
-import gsap from "gsap";
-import { useEffect } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { submitLeadWithVisitorInterest } from "@/components/visitor-interest/submit";
+
 export default function ContactPage() {
   const router = useRouter();
   const [success, setSuccess] = useState(false);
-  const handleChange = (e: any) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
   setForm({ ...form, [e.target.name]: e.target.value });
 };
 
-const handleSubmit = async (e: any) => {
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   if (!form.firstName || !form.phone) {
@@ -21,21 +22,25 @@ const handleSubmit = async (e: any) => {
   }
 
   try {
-    const res = await fetch("/api/leads", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: form.firstName + " " + form.lastName, // combine
+    const fullName = `${form.firstName} ${form.lastName}`.trim();
+    const data = await submitLeadWithVisitorInterest({
+      lead: {
+        name: fullName,
         email: form.email,
         phone: form.phone,
         message: form.message,
-        type: "Contact", // 🔥 IMPORTANT
-      }),
+        type: "Contact",
+      },
+      activity: {
+        source: "contact_page_form",
+        sourceLabel: "Contact Page Form",
+        details: {
+          email: form.email,
+          message: form.message,
+          leadType: "Contact",
+        },
+      },
     });
-
-    const data = await res.json();
 
     if (data.success) {
       setSuccess(true);
@@ -54,8 +59,9 @@ const handleSubmit = async (e: any) => {
     }
 
   } catch (error) {
-    console.log(error);
-    alert("Something went wrong");
+    alert(
+      error instanceof Error ? error.message : "Something went wrong"
+    );
   }
 };
   
